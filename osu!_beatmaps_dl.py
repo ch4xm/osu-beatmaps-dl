@@ -71,14 +71,20 @@ def main():
             elif os.path.exists(file_path):
                 print(f"ZIP File {file_name} already exists, unzipping to folder...")
                 os.makedirs(rf'{path}\{file_name}')
-                unzip(file_path, rf'{path}\{file_name}')
+                try:
+                    unzip(file_path, rf'{path}\{file_name}')
+                except:
+                    print("Could not unzip file!")
         else:
             print(f'Downloading beatmap {i+1} of {len(beatmaps)} named "{title}"...')
             response = requests.get(dl_link)
             with open(file_path, 'wb') as f:
                 f.write(response.content)
-            unzip(file_path, f'{path}\\{file_name}')
-            num_maps += 1
+            try:
+                unzip(file_path, f'{path}\\{file_name}')
+                num_maps += 1
+            except:
+                print("Could not unzip file!")
 
     print(f"\n{num_maps} beatmap sets downloaded into folder {path}.")
 
